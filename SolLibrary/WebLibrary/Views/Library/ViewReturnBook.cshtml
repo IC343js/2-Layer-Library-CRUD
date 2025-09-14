@@ -1,0 +1,102 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Return Books</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header bg-success text-white">
+                        <h3 class="card-title mb-0">
+                            <i class="bi bi-arrow-return-left me-2"></i>Return Books
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        @if (TempData["mensaje"] != null)
+                        {
+                            var isError = TempData["mensaje"].ToString().Contains("Error") ||
+                                         TempData["mensaje"].ToString().Contains("Invalid") ||
+                                         TempData["mensaje"].ToString().Contains("not found");
+
+                            <div class="alert @(isError ? "alert-danger" : "alert-success") alert-dismissible fade show" role="alert">
+                                <strong>@(isError ? "Error:" : "Success:")</strong> @TempData["mensaje"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="alert alert-success bg-light border-success" role="alert">
+                            <i class="bi bi-check-circle me-2"></i>
+                            <strong>Return Process:</strong> Enter the book ID and the number of copies you're returning.
+                        </div>
+
+                        <form action="/Library/FormGoReturn" method="post" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="idBook" class="form-label">Book ID <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg" name="idBook" id="idBook" placeholder="Enter book ID (e.g., 1)" min="1" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid book ID (minimum 1).
+                                </div>
+                                <div class="form-text">Enter the ID of the book you're returning.</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="returnedCopies" class="form-label">Number of Copies to Return <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg" name="returnedCopies" id="returnedCopies" placeholder="Enter number of copies to return (e.g., 1)" min="1" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid number of copies (minimum 1).
+                                </div>
+                                <div class="form-text">How many copies of this book are you returning?</div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="/Library/Index" class="btn btn-outline-secondary me-md-2">
+                                    <i class="bi bi-arrow-left me-1"></i>Back to Library
+                                </a>
+                                <button type="submit" name="sendReturn" class="btn btn-success">
+                                    <i class="bi bi-upload me-1"></i>Return Books
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Thank You Message -->
+                        <div class="card mt-4 border-0 bg-light">
+                            <div class="card-body text-center">
+                                <h6 class="card-title text-success">
+                                    <i class="bi bi-heart me-1"></i>Thank You!
+                                </h6>
+                                <p class="small text-muted mb-0">
+                                    Thank you for returning books on time. This helps keep our library running smoothly for everyone.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Additional Information -->
+                        <div class="card mt-3 border-0 bg-light">
+                            <div class="card-body">
+                                <h6 class="card-title text-muted">
+                                    <i class="bi bi-info-circle me-1"></i>Important Notes
+                                </h6>
+                                <ul class="small text-muted mb-0">
+                                    <li>Make sure the book is in good condition</li>
+                                    <li>Check that you're returning the correct book ID</li>
+                                    <li>Late returns may incur fees</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

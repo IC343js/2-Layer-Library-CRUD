@@ -1,0 +1,117 @@
+﻿@using WebLibrary.Models
+@model Ent_Books
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Update Book</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8">
+                <div class="card shadow">
+                    <div class="card-header bg-warning text-dark">
+                        <h3 class="card-title mb-0">
+                            <i class="bi bi-pencil-fill me-2"></i>Update Book Information
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        @if (TempData["mensaje"] != null)
+                        {
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong>Error:</strong> @TempData["mensaje"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <!-- Current Book Information -->
+                        <div class="row mb-4">
+                            <div class="col-12">
+                                <h5 class="text-muted mb-3">Current Information</h5>
+                                <div class="card bg-light">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-2">
+                                                <strong>Title:</strong> @Model.Title
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <strong>Author:</strong> @Model.Autor
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <strong>Genre:</strong> @Model.Genre
+                                            </div>
+                                            <div class="col-md-6 mb-2">
+                                                <strong>Copies:</strong> @Model.Copies
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Update Form -->
+                        <h5 class="text-muted mb-3">Update Information</h5>
+                        <form action="/Library/FormUpdateBook" method="post" class="needs-validation" novalidate>
+                            <input type="hidden" name="IdBook" value="@Model.IdBook" />
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="title" class="form-label">Title <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="Title" id="title" value="@Model.Title" required>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid title.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="autor" class="form-label">Author <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="Autor" id="autor" value="@Model.Autor" required>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid author name.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="genre" class="form-label">Genre <span class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" name="Genre" id="genre" value="@Model.Genre" required>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid genre.
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6 mb-3">
+                                    <label for="copies" class="form-label">Number of Copies <span class="text-danger">*</span></label>
+                                    <input type="number" class="form-control" name="Copies" id="copies" value="@Model.Copies" min="0" required>
+                                    <div class="invalid-feedback">
+                                        Please provide a valid number of copies (minimum 0).
+                                    </div>
+                                    <div class="form-text">Minimum value is 0 for out-of-stock books.</div>
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <a href="/Library/Index" class="btn btn-secondary me-md-2">
+                                    <i class="bi bi-arrow-left me-1"></i>Cancel
+                                </a>
+                                <button type="submit" name="update" class="btn btn-warning text-dark">
+                                    <i class="bi bi-check-circle me-1"></i>Update Book
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

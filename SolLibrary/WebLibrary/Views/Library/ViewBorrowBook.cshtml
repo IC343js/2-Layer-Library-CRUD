@@ -1,0 +1,90 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Borrow Books</title>
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap.js"></script>
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header bg-info text-white">
+                        <h3 class="card-title mb-0">
+                            <i class="bi bi-book me-2"></i>Borrow Books
+                        </h3>
+                    </div>
+                    <div class="card-body">
+                        @if (TempData["mensaje"] != null)
+                        {
+                            var isError = TempData["mensaje"].ToString().Contains("Error") ||
+                                         TempData["mensaje"].ToString().Contains("Invalid") ||
+                                         TempData["mensaje"].ToString().Contains("Not enough") ||
+                                         TempData["mensaje"].ToString().Contains("not found");
+
+                            <div class="alert @(isError ? "alert-danger" : "alert-success") alert-dismissible fade show" role="alert">
+                                <strong>@(isError ? "Error:" : "Success:")</strong> @TempData["mensaje"]
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        }
+
+                        <div class="alert alert-info" role="alert">
+                            <i class="bi bi-info-circle me-2"></i>
+                            <strong>Instructions:</strong> Enter the book ID and the number of copies you want to borrow.
+                        </div>
+
+                        <form action="/Library/FormGoLoan" method="post" class="needs-validation" novalidate>
+                            <div class="mb-3">
+                                <label for="idBook" class="form-label">Book ID <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg" name="idBook" id="idBook" placeholder="Enter book ID (e.g., 1)" min="1" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid book ID (minimum 1).
+                                </div>
+                                <div class="form-text">You can find the book ID in the main library list.</div>
+                            </div>
+
+                            <div class="mb-4">
+                                <label for="numberCopies" class="form-label">Number of Copies <span class="text-danger">*</span></label>
+                                <input type="number" class="form-control form-control-lg" name="numberCopies" id="numberCopies" placeholder="Enter number of copies to borrow (e.g., 1)" min="1" required>
+                                <div class="invalid-feedback">
+                                    Please provide a valid number of copies (minimum 1).
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="/Library/Index" class="btn btn-outline-secondary me-md-2">
+                                    <i class="bi bi-arrow-left me-1"></i>Back to Library
+                                </a>
+                                <button type="submit" name="sendLoan" class="btn btn-info text-white">
+                                    <i class="bi bi-download me-1"></i>Borrow Books
+                                </button>
+                            </div>
+                        </form>
+
+                        <!-- Additional Information Card -->
+                        <div class="card mt-4 border-0 bg-light">
+                            <div class="card-body">
+                                <h6 class="card-title text-muted">
+                                    <i class="bi bi-lightbulb me-1"></i>Tips
+                                </h6>
+                                <ul class="small text-muted mb-0">
+                                    <li>Make sure the book ID exists in our library system</li>
+                                    <li>Check that enough copies are available before borrowing</li>
+                                    <li>Remember to return books on time</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>
